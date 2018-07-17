@@ -25,10 +25,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+
 import org.apache.ignite.IgniteCheckedException;
 import org.apache.ignite.binary.BinaryObjectException;
 import org.apache.ignite.binary.BinaryRawWriter;
@@ -1800,10 +1798,9 @@ public class BinaryWriterExImpl implements BinaryWriter, BinaryRawWriterEx, Obje
      * @param fieldId Field ID.
      */
     public void writeFieldId(int fieldId) {
-        int fieldOff = out.position() - start;
 
-        // Advance schema hash.
         schemaId = BinaryUtils.updateSchemaId(schemaId, fieldId);
+        int fieldOff = out.position() - start;
 
         schema.push(fieldId, fieldOff);
 
@@ -1845,7 +1842,7 @@ public class BinaryWriterExImpl implements BinaryWriter, BinaryRawWriterEx, Obje
         BinarySchema.Builder builder = BinarySchema.Builder.newBuilder();
 
         if (schema != null)
-            schema.build(builder, fieldCnt);
+            schema.build(builder, fieldCnt, null);
 
         return builder.build();
     }

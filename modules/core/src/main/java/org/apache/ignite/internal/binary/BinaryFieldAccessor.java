@@ -197,7 +197,7 @@ public abstract class BinaryFieldAccessor {
         protected AbstractPrimitiveAccessor(Field field, int id, BinaryWriteMode mode) {
             super(field, id, mode);
 
-            offset = GridUnsafe.objectFieldOffset(field);
+            offset = GridUnsafe.getInstance().objectFieldOffset(field);
         }
     }
 
@@ -218,7 +218,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void write(Object obj, BinaryWriterExImpl writer) throws BinaryObjectException {
             writer.writeFieldIdNoSchemaUpdate(id);
 
-            byte val = GridUnsafe.getByteField(obj, offset);
+            byte val = GridUnsafe.getInstance().getByteField(obj, offset);
 
             writer.writeByteFieldPrimitive(val);
         }
@@ -227,7 +227,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void read0(Object obj, BinaryReaderExImpl reader) throws BinaryObjectException {
             byte val = reader.readByte(id);
 
-            GridUnsafe.putByteField(obj, offset, val);
+            GridUnsafe.getInstance().putByteField(obj, offset, val);
         }
     }
 
@@ -248,7 +248,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void write(Object obj, BinaryWriterExImpl writer) throws BinaryObjectException {
             writer.writeFieldIdNoSchemaUpdate(id);
 
-            boolean val = GridUnsafe.getBooleanField(obj, offset);
+            boolean val = GridUnsafe.getInstance().getBooleanField(obj, offset);
 
             writer.writeBooleanFieldPrimitive(val);
         }
@@ -257,7 +257,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void read0(Object obj, BinaryReaderExImpl reader) throws BinaryObjectException {
             boolean val = reader.readBoolean(id);
 
-            GridUnsafe.putBooleanField(obj, offset, val);
+            GridUnsafe.getInstance().putBooleanField(obj, offset, val);
         }
     }
 
@@ -278,7 +278,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void write(Object obj, BinaryWriterExImpl writer) throws BinaryObjectException {
             writer.writeFieldIdNoSchemaUpdate(id);
 
-            short val = GridUnsafe.getShortField(obj, offset);
+            short val = GridUnsafe.getInstance().getShortField(obj, offset);
 
             writer.writeShortFieldPrimitive(val);
         }
@@ -287,7 +287,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void read0(Object obj, BinaryReaderExImpl reader) throws BinaryObjectException {
             short val = reader.readShort(id);
 
-            GridUnsafe.putShortField(obj, offset, val);
+            GridUnsafe.getInstance().putShortField(obj, offset, val);
         }
     }
 
@@ -308,7 +308,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void write(Object obj, BinaryWriterExImpl writer) throws BinaryObjectException {
             writer.writeFieldIdNoSchemaUpdate(id);
 
-            char val = GridUnsafe.getCharField(obj, offset);
+            char val = GridUnsafe.getInstance().getCharField(obj, offset);
 
             writer.writeCharFieldPrimitive(val);
         }
@@ -317,7 +317,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void read0(Object obj, BinaryReaderExImpl reader) throws BinaryObjectException {
             char val = reader.readChar(id);
 
-            GridUnsafe.putCharField(obj, offset, val);
+            GridUnsafe.getInstance().putCharField(obj, offset, val);
         }
     }
 
@@ -338,7 +338,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void write(Object obj, BinaryWriterExImpl writer) throws BinaryObjectException {
             writer.writeFieldIdNoSchemaUpdate(id);
 
-            int val = GridUnsafe.getIntField(obj, offset);
+            int val = GridUnsafe.getInstance().getIntField(obj, offset);
 
             writer.writeIntFieldPrimitive(val);
         }
@@ -347,7 +347,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void read0(Object obj, BinaryReaderExImpl reader) throws BinaryObjectException {
             int val = reader.readInt(id);
 
-            GridUnsafe.putIntField(obj, offset, val);
+            GridUnsafe.getInstance().putIntField(obj, offset, val);
         }
     }
 
@@ -368,7 +368,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void write(Object obj, BinaryWriterExImpl writer) throws BinaryObjectException {
             writer.writeFieldIdNoSchemaUpdate(id);
 
-            long val = GridUnsafe.getLongField(obj, offset);
+            long val = GridUnsafe.getInstance().getLongField(obj, offset);
 
             writer.writeLongFieldPrimitive(val);
         }
@@ -377,7 +377,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void read0(Object obj, BinaryReaderExImpl reader) throws BinaryObjectException {
             long val = reader.readLong(id);
 
-            GridUnsafe.putLongField(obj, offset, val);
+            GridUnsafe.getInstance().putLongField(obj, offset, val);
         }
     }
 
@@ -398,7 +398,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void write(Object obj, BinaryWriterExImpl writer) throws BinaryObjectException {
             writer.writeFieldIdNoSchemaUpdate(id);
 
-            float val = GridUnsafe.getFloatField(obj, offset);
+            float val = GridUnsafe.getInstance().getFloatField(obj, offset);
 
             writer.writeFloatFieldPrimitive(val);
         }
@@ -407,7 +407,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void read0(Object obj, BinaryReaderExImpl reader) throws BinaryObjectException {
             float val = reader.readFloat(id);
 
-            GridUnsafe.putFloatField(obj, offset, val);
+            GridUnsafe.getInstance().putFloatField(obj, offset, val);
         }
     }
 
@@ -428,7 +428,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void write(Object obj, BinaryWriterExImpl writer) throws BinaryObjectException {
             writer.writeFieldIdNoSchemaUpdate(id);
 
-            double val = GridUnsafe.getDoubleField(obj, offset);
+            double val = GridUnsafe.getInstance().getDoubleField(obj, offset);
 
             writer.writeDoubleFieldPrimitive(val);
         }
@@ -437,7 +437,7 @@ public abstract class BinaryFieldAccessor {
         @Override public void read0(Object obj, BinaryReaderExImpl reader) throws BinaryObjectException {
             double val = reader.readDouble(id);
 
-            GridUnsafe.putDoubleField(obj, offset, val);
+            GridUnsafe.getInstance().putDoubleField(obj, offset, val);
         }
     }
 

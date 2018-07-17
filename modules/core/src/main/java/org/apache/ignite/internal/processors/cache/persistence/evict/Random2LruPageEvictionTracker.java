@@ -69,14 +69,14 @@ public class Random2LruPageEvictionTracker extends PageAbstractEvictionTracker {
 
     /** {@inheritDoc} */
     @Override public void start() throws IgniteException {
-        trackingArrPtr = GridUnsafe.allocateMemory(trackingSize * 8);
+        trackingArrPtr = GridUnsafe.getInstance().allocateMemory(trackingSize * 8);
 
-        GridUnsafe.setMemory(trackingArrPtr, trackingSize * 8, (byte)0);
+        GridUnsafe.getInstance().setMemory(trackingArrPtr, trackingSize * 8, (byte)0);
     }
 
     /** {@inheritDoc} */
     @Override public void stop() throws IgniteException {
-        GridUnsafe.freeMemory(trackingArrPtr);
+        GridUnsafe.getInstance().freeMemory(trackingArrPtr);
     }
 
     /** {@inheritDoc} */
@@ -92,14 +92,14 @@ public class Random2LruPageEvictionTracker extends PageAbstractEvictionTracker {
         do {
             int trackingIdx = trackingIdx(pageIdx);
 
-            int firstTs = GridUnsafe.getIntVolatile(null, trackingArrPtr + trackingIdx * 8);
+            int firstTs = GridUnsafe.getInstance().getIntVolatile(null, trackingArrPtr + trackingIdx * 8);
 
-            int secondTs = GridUnsafe.getIntVolatile(null, trackingArrPtr + trackingIdx * 8 + 4);
+            int secondTs = GridUnsafe.getInstance().getIntVolatile(null, trackingArrPtr + trackingIdx * 8 + 4);
 
             if (firstTs <= secondTs)
-                success = GridUnsafe.compareAndSwapInt(null, trackingArrPtr + trackingIdx * 8, firstTs, (int)latestTs);
+                success = GridUnsafe.getInstance().compareAndSwapInt(null, trackingArrPtr + trackingIdx * 8, firstTs, (int)latestTs);
             else {
-                success = GridUnsafe.compareAndSwapInt(
+                success = GridUnsafe.getInstance().compareAndSwapInt(
                     null, trackingArrPtr + trackingIdx * 8 + 4, secondTs, (int)latestTs);
             }
         } while (!success);
@@ -123,9 +123,9 @@ public class Random2LruPageEvictionTracker extends PageAbstractEvictionTracker {
             while (dataPagesCnt < SAMPLE_SIZE) {
                 int trackingIdx = rnd.nextInt(trackingSize);
 
-                int firstTs = GridUnsafe.getIntVolatile(null, trackingArrPtr + trackingIdx * 8);
+                int firstTs = GridUnsafe.getInstance().getIntVolatile(null, trackingArrPtr + trackingIdx * 8);
 
-                int secondTs = GridUnsafe.getIntVolatile(null, trackingArrPtr + trackingIdx * 8 + 4);
+                int secondTs = GridUnsafe.getInstance().getIntVolatile(null, trackingArrPtr + trackingIdx * 8 + 4);
 
                 int minTs = Math.min(firstTs, secondTs);
 
@@ -164,7 +164,7 @@ public class Random2LruPageEvictionTracker extends PageAbstractEvictionTracker {
     @Override protected boolean checkTouch(long pageId) {
         int trackingIdx = trackingIdx(PageIdUtils.pageIndex(pageId));
 
-        int firstTs = GridUnsafe.getIntVolatile(null, trackingArrPtr + trackingIdx * 8);
+        int firstTs = GridUnsafe.getInstance().getIntVolatile(null, trackingArrPtr + trackingIdx * 8);
 
         return firstTs != 0;
     }
@@ -175,6 +175,6 @@ public class Random2LruPageEvictionTracker extends PageAbstractEvictionTracker {
 
         int trackingIdx = trackingIdx(pageIdx);
 
-        GridUnsafe.putLongVolatile(null, trackingArrPtr + trackingIdx * 8, 0L);
+        GridUnsafe.getInstance().putLongVolatile(null, trackingArrPtr + trackingIdx * 8, 0L);
     }
 }

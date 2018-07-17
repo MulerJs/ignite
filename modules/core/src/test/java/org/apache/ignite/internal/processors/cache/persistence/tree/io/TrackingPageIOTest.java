@@ -93,7 +93,7 @@ public class TrackingPageIOTest extends TestCase {
 
         assert basePageId >= 0;
 
-        PageIO.setPageId(GridUnsafe.bufferAddress(buf), basePageId);
+        PageIO.setPageId(GridUnsafe.getInstance().bufferAddress(buf), basePageId);
 
         Map<Long, Boolean> map = new HashMap<>();
 
@@ -154,7 +154,7 @@ public class TrackingPageIOTest extends TestCase {
 
         assert basePageId >= 0;
 
-        PageIO.setPageId(GridUnsafe.bufferAddress(buf), basePageId);
+        PageIO.setPageId(GridUnsafe.getInstance().bufferAddress(buf), basePageId);
 
         try {
             TreeSet<Long> setIdx = new TreeSet<>();
@@ -199,7 +199,7 @@ public class TrackingPageIOTest extends TestCase {
 
         assert basePageId >= 0;
 
-        PageIO.setPageId(GridUnsafe.bufferAddress(buf), basePageId);
+        PageIO.setPageId(GridUnsafe.getInstance().bufferAddress(buf), basePageId);
 
         TreeSet<Long> setIdx = new TreeSet<>();
 
@@ -238,7 +238,7 @@ public class TrackingPageIOTest extends TestCase {
 
         assert basePageId >= 0;
 
-        PageIO.setPageId(GridUnsafe.bufferAddress(buf), basePageId);
+        PageIO.setPageId(GridUnsafe.getInstance().bufferAddress(buf), basePageId);
 
         TreeSet<Long> setIdx = new TreeSet<>();
 

@@ -56,7 +56,7 @@ public class PageSnapshot extends WALRecord {
 
         pageData = new byte[pageSize];
 
-        GridUnsafe.copyMemory(null, ptr, pageData, GridUnsafe.BYTE_ARR_OFF, pageSize);
+        GridUnsafe.getInstance().copyMemory(null, ptr, pageData, GridUnsafe.BYTE_ARR_OFF, pageSize);
     }
 
     /** {@inheritDoc} */
@@ -84,7 +84,7 @@ public class PageSnapshot extends WALRecord {
         buf.order(ByteOrder.nativeOrder());
         buf.put(pageData);
 
-        long addr = GridUnsafe.bufferAddress(buf);
+        long addr = GridUnsafe.getInstance().bufferAddress(buf);
 
         try {
             return "PageSnapshot [fullPageId = " + fullPageId() + ", page = [\n"

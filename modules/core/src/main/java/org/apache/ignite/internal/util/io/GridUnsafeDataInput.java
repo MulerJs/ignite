@@ -21,6 +21,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UTFDataFormatException;
+
 import org.apache.ignite.internal.util.GridUnsafe;
 import org.apache.ignite.internal.util.tostring.GridToStringExclude;
 import org.apache.ignite.internal.util.typedef.internal.S;
@@ -210,13 +211,13 @@ public class GridUnsafeDataInput extends InputStream implements GridDataInput {
 
         if (BIG_ENDIAN) {
             for (int i = 0; i < arr.length; i++) {
-                arr[i] = GridUnsafe.getShortLE(buf, off);
+                arr[i] = GridUnsafe.getInstance().getShortLE(buf, off);
 
                 off += 2;
             }
         }
         else
-            GridUnsafe.copyMemory(buf, off, arr, SHORT_ARR_OFF, bytesToCp);
+            GridUnsafe.getInstance().copyMemory(buf, off, arr, SHORT_ARR_OFF, bytesToCp);
 
         return arr;
     }
@@ -235,13 +236,13 @@ public class GridUnsafeDataInput extends InputStream implements GridDataInput {
 
         if (BIG_ENDIAN) {
             for (int i = 0; i < arr.length; i++) {
-                arr[i] = GridUnsafe.getIntLE(buf, off);
+                arr[i] = GridUnsafe.getInstance().getIntLE(buf, off);
 
                 off += 4;
             }
         }
         else
-            GridUnsafe.copyMemory(buf, off, arr, INT_ARR_OFF, bytesToCp);
+            GridUnsafe.getInstance().copyMemory(buf, off, arr, INT_ARR_OFF, bytesToCp);
 
         return arr;
     }
@@ -260,13 +261,13 @@ public class GridUnsafeDataInput extends InputStream implements GridDataInput {
 
         if (BIG_ENDIAN) {
             for (int i = 0; i < arr.length; i++) {
-                arr[i] = GridUnsafe.getDoubleLE(buf, off);
+                arr[i] = GridUnsafe.getInstance().getDoubleLE(buf, off);
 
                 off += 8;
             }
         }
         else
-            GridUnsafe.copyMemory(buf, off, arr, DOUBLE_ARR_OFF, bytesToCp);
+            GridUnsafe.getInstance().copyMemory(buf, off, arr, DOUBLE_ARR_OFF, bytesToCp);
 
         return arr;
     }
@@ -297,13 +298,13 @@ public class GridUnsafeDataInput extends InputStream implements GridDataInput {
 
         if (BIG_ENDIAN) {
             for (int i = 0; i < arr.length; i++) {
-                arr[i] = GridUnsafe.getCharLE(buf, off);
+                arr[i] = GridUnsafe.getInstance().getCharLE(buf, off);
 
                 off += 2;
             }
         }
         else
-            GridUnsafe.copyMemory(buf, off, arr, CHAR_ARR_OFF, bytesToCp);
+            GridUnsafe.getInstance().copyMemory(buf, off, arr, CHAR_ARR_OFF, bytesToCp);
 
         return arr;
     }
@@ -322,13 +323,13 @@ public class GridUnsafeDataInput extends InputStream implements GridDataInput {
 
         if (BIG_ENDIAN) {
             for (int i = 0; i < arr.length; i++) {
-                arr[i] = GridUnsafe.getLongLE(buf, off);
+                arr[i] = GridUnsafe.getInstance().getLongLE(buf, off);
 
                 off += 8;
             }
         }
         else
-            GridUnsafe.copyMemory(buf, off, arr, LONG_ARR_OFF, bytesToCp);
+            GridUnsafe.getInstance().copyMemory(buf, off, arr, LONG_ARR_OFF, bytesToCp);
 
         return arr;
     }
@@ -347,13 +348,13 @@ public class GridUnsafeDataInput extends InputStream implements GridDataInput {
 
         if (BIG_ENDIAN) {
             for (int i = 0; i < arr.length; i++) {
-                arr[i] = GridUnsafe.getFloatLE(buf, off);
+                arr[i] = GridUnsafe.getInstance().getFloatLE(buf, off);
 
                 off += 4;
             }
         }
         else
-            GridUnsafe.copyMemory(buf, off, arr, FLOAT_ARR_OFF, bytesToCp);
+            GridUnsafe.getInstance().copyMemory(buf, off, arr, FLOAT_ARR_OFF, bytesToCp);
 
         return arr;
     }
@@ -388,14 +389,14 @@ public class GridUnsafeDataInput extends InputStream implements GridDataInput {
     @Override public boolean readBoolean() throws IOException {
         fromStream(1);
 
-        return GridUnsafe.getBoolean(buf, BYTE_ARR_OFF + offset(1));
+        return GridUnsafe.getInstance().getBoolean(buf, BYTE_ARR_OFF + offset(1));
     }
 
     /** {@inheritDoc} */
     @Override public byte readByte() throws IOException {
         fromStream(1);
 
-        return GridUnsafe.getByte(buf, BYTE_ARR_OFF + offset(1));
+        return GridUnsafe.getInstance().getByte(buf, BYTE_ARR_OFF + offset(1));
     }
 
     /** {@inheritDoc} */
@@ -409,7 +410,7 @@ public class GridUnsafeDataInput extends InputStream implements GridDataInput {
 
         long off = BYTE_ARR_OFF + offset(2);
 
-        return BIG_ENDIAN ? GridUnsafe.getShortLE(buf, off) : GridUnsafe.getShort(buf, off);
+        return BIG_ENDIAN ? GridUnsafe.getInstance().getShortLE(buf, off) : GridUnsafe.getInstance().getShort(buf, off);
     }
 
     /** {@inheritDoc} */
@@ -423,7 +424,7 @@ public class GridUnsafeDataInput extends InputStream implements GridDataInput {
 
         long off = BYTE_ARR_OFF + this.off;
 
-        char v = BIG_ENDIAN ? GridUnsafe.getCharLE(buf, off) : GridUnsafe.getChar(buf, off);
+        char v = BIG_ENDIAN ? GridUnsafe.getInstance().getCharLE(buf, off) : GridUnsafe.getInstance().getChar(buf, off);
 
         offset(2);
 
@@ -436,7 +437,7 @@ public class GridUnsafeDataInput extends InputStream implements GridDataInput {
 
         long off = BYTE_ARR_OFF + offset(4);
 
-        return BIG_ENDIAN ? GridUnsafe.getIntLE(buf, off) : GridUnsafe.getInt(buf, off);
+        return BIG_ENDIAN ? GridUnsafe.getInstance().getIntLE(buf, off) : GridUnsafe.getInstance().getInt(buf, off);
     }
 
     /** {@inheritDoc} */
@@ -445,7 +446,7 @@ public class GridUnsafeDataInput extends InputStream implements GridDataInput {
 
         long off = BYTE_ARR_OFF + offset(8);
 
-        return BIG_ENDIAN ? GridUnsafe.getLongLE(buf, off) : GridUnsafe.getLong(buf, off);
+        return BIG_ENDIAN ? GridUnsafe.getInstance().getLongLE(buf, off) : GridUnsafe.getInstance().getLong(buf, off);
     }
 
     /** {@inheritDoc} */

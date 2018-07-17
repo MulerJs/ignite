@@ -25,6 +25,7 @@ import org.apache.ignite.internal.util.offheap.GridOffHeapOutOfMemoryException;
 import org.apache.ignite.internal.util.tostring.GridToStringInclude;
 import org.apache.ignite.internal.util.typedef.internal.S;
 import org.apache.ignite.lang.IgniteBiTuple;
+import sun.misc.Unsafe;
 
 import static org.apache.ignite.IgniteSystemProperties.IGNITE_OFFHEAP_SAFE_RELEASE;
 import static org.apache.ignite.internal.util.offheap.GridOffHeapEvent.ALLOCATE;
@@ -34,6 +35,7 @@ import static org.apache.ignite.internal.util.offheap.GridOffHeapEvent.RELEASE;
  * Unsafe memory.
  */
 public class GridUnsafeMemory {
+
     /** Free byte. */
     private static final byte FREE = (byte)0;
 
@@ -165,7 +167,7 @@ public class GridUnsafeMemory {
             cnt.addAndGet(size);
 
         try {
-            long ptr = GridUnsafe.allocateMemory(size);
+            long ptr = GridUnsafe.getInstance().allocateMemory(size);
 
             if (init)
                 fill(ptr, size, FREE);
@@ -189,7 +191,7 @@ public class GridUnsafeMemory {
      * @param b Value.
      */
     public void fill(long ptr, long size, byte b) {
-        GridUnsafe.setMemory(ptr, size, b);
+        GridUnsafe.getInstance().setMemory(ptr, size, b);
     }
 
     /**
@@ -224,7 +226,7 @@ public class GridUnsafeMemory {
             if (SAFE_RELEASE)
                 fill(ptr, size, (byte)0xAB);
 
-            GridUnsafe.freeMemory(ptr);
+            GridUnsafe.getInstance().freeMemory(ptr);
 
             cnt.addAndGet(-size);
 
@@ -238,7 +240,7 @@ public class GridUnsafeMemory {
      * @return Long value.
      */
     public long readLong(long ptr) {
-        return GridUnsafe.getLong(ptr);
+        return GridUnsafe.getInstance().getLong(ptr);
     }
 
     /**
@@ -246,7 +248,7 @@ public class GridUnsafeMemory {
      * @param v Long value.
      */
     public void writeLong(long ptr, long v) {
-        GridUnsafe.putLong(ptr, v);
+        GridUnsafe.getInstance().putLong(ptr, v);
     }
 
     /**
@@ -254,7 +256,7 @@ public class GridUnsafeMemory {
      * @return Long value.
      */
     public long readLongVolatile(long ptr) {
-        return GridUnsafe.getLongVolatile(null, ptr);
+        return GridUnsafe.getInstance().getLongVolatile(null, ptr);
     }
 
     /**
@@ -262,7 +264,7 @@ public class GridUnsafeMemory {
      * @param v Long value.
      */
     public void writeLongVolatile(long ptr, long v) {
-        GridUnsafe.putLongVolatile(null, ptr, v);
+        GridUnsafe.getInstance().putLongVolatile(null, ptr, v);
     }
 
     /**
@@ -272,7 +274,7 @@ public class GridUnsafeMemory {
      * @return {@code true} If operation succeeded.
      */
     public boolean casLong(long ptr, long exp, long v) {
-        return GridUnsafe.compareAndSwapLong(null, ptr, exp, v);
+        return GridUnsafe.getInstance().compareAndSwapLong(null, ptr, exp, v);
     }
 
     /**
@@ -280,7 +282,7 @@ public class GridUnsafeMemory {
      * @return Integer value.
      */
     public int readInt(long ptr) {
-        return GridUnsafe.getInt(ptr);
+        return GridUnsafe.getInstance().getInt(ptr);
     }
 
     /**
@@ -288,7 +290,7 @@ public class GridUnsafeMemory {
      * @param v Integer value.
      */
     public void writeInt(long ptr, int v) {
-        GridUnsafe.putInt(ptr, v);
+        GridUnsafe.getInstance().putInt(ptr, v);
     }
 
     /**
@@ -296,7 +298,7 @@ public class GridUnsafeMemory {
      * @return Integer value.
      */
     public int readIntVolatile(long ptr) {
-        return GridUnsafe.getIntVolatile(null, ptr);
+        return GridUnsafe.getInstance().getIntVolatile(null, ptr);
     }
 
     /**
@@ -304,7 +306,7 @@ public class GridUnsafeMemory {
      * @param v Integer value.
      */
     public void writeIntVolatile(long ptr, int v) {
-        GridUnsafe.putIntVolatile(null, ptr, v);
+        GridUnsafe.getInstance().putIntVolatile(null, ptr, v);
     }
 
     /**
@@ -314,7 +316,7 @@ public class GridUnsafeMemory {
      * @return {@code true} If operation succeeded.
      */
     public boolean casInt(long ptr, int exp, int v) {
-        return GridUnsafe.compareAndSwapInt(null, ptr, exp, v);
+        return GridUnsafe.getInstance().compareAndSwapInt(null, ptr, exp, v);
     }
 
     /**
@@ -322,7 +324,7 @@ public class GridUnsafeMemory {
      * @return Float value.
      */
     public float readFloat(long ptr) {
-        return GridUnsafe.getFloat(ptr);
+        return GridUnsafe.getInstance().getFloat(ptr);
     }
 
     /**
@@ -330,7 +332,7 @@ public class GridUnsafeMemory {
      * @param v Value.
      */
     public void writeFloat(long ptr, float v) {
-        GridUnsafe.putFloat(ptr, v);
+        GridUnsafe.getInstance().putFloat(ptr, v);
     }
 
     /**
@@ -338,7 +340,7 @@ public class GridUnsafeMemory {
      * @return Double value.
      */
     public double readDouble(long ptr) {
-        return GridUnsafe.getDouble(ptr);
+        return GridUnsafe.getInstance().getDouble(ptr);
     }
 
     /**
@@ -346,7 +348,7 @@ public class GridUnsafeMemory {
      * @param v Value.
      */
     public void writeDouble(long ptr, double v) {
-        GridUnsafe.putDouble(ptr, v);
+        GridUnsafe.getInstance().putDouble(ptr, v);
     }
 
     /**
@@ -354,7 +356,7 @@ public class GridUnsafeMemory {
      * @return Short value.
      */
     public short readShort(long ptr) {
-        return GridUnsafe.getShort(ptr);
+        return GridUnsafe.getInstance().getShort(ptr);
     }
 
     /**
@@ -362,7 +364,7 @@ public class GridUnsafeMemory {
      * @param v Short value.
      */
     public void writeShort(long ptr, short v) {
-        GridUnsafe.putShort(ptr, v);
+        GridUnsafe.getInstance().putShort(ptr, v);
     }
 
     /**
@@ -370,7 +372,7 @@ public class GridUnsafeMemory {
      * @return Integer value.
      */
     public byte readByte(long ptr) {
-        return GridUnsafe.getByte(ptr);
+        return GridUnsafe.getInstance().getByte(ptr);
     }
 
     /**
@@ -378,7 +380,7 @@ public class GridUnsafeMemory {
      * @return Integer value.
      */
     public byte readByteVolatile(long ptr) {
-        return GridUnsafe.getByteVolatile(null, ptr);
+        return GridUnsafe.getInstance().getByteVolatile(null, ptr);
     }
 
     /**
@@ -386,7 +388,7 @@ public class GridUnsafeMemory {
      * @param v Integer value.
      */
     public void writeByte(long ptr, byte v) {
-        GridUnsafe.putByte(ptr, v);
+        GridUnsafe.getInstance().putByte(null, ptr, v);
     }
 
     /**
@@ -394,7 +396,7 @@ public class GridUnsafeMemory {
      * @param v Integer value.
      */
     public void writeByteVolatile(long ptr, byte v) {
-        GridUnsafe.putByteVolatile(null, ptr, v);
+        GridUnsafe.getInstance().putByteVolatile(null, ptr, v);
     }
 
     /**
@@ -474,8 +476,8 @@ public class GridUnsafeMemory {
         int words = size / 8;
 
         for (int i = 0; i < words; i++) {
-            long w1 = GridUnsafe.getLong(ptr1);
-            long w2 = GridUnsafe.getLong(ptr2);
+            long w1 = GridUnsafe.getInstance().getLong(ptr1);
+            long w2 = GridUnsafe.getInstance().getLong(ptr2);
 
             if (w1 != w2)
                 return false;
@@ -487,8 +489,8 @@ public class GridUnsafeMemory {
         int left = size % 8;
 
         for (int i = 0; i < left; i++) {
-            byte b1 = GridUnsafe.getByte(ptr1);
-            byte b2 = GridUnsafe.getByte(ptr2);
+            byte b1 = GridUnsafe.getInstance().getByte(ptr1);
+            byte b2 = GridUnsafe.getInstance().getByte(ptr2);
 
             if (b1 != b2)
                 return false;
@@ -532,7 +534,7 @@ public class GridUnsafeMemory {
 
         if (align != addrSize) {
             for (int i = 0, tmpOff = bytesOff; i < align && i < len; i++, tmpOff++, ptr++) {
-                if (GridUnsafe.getByte(ptr) != bytes[tmpOff])
+                if (GridUnsafe.getInstance().getByte(ptr) != bytes[tmpOff])
                     return false;
             }
         }
@@ -553,9 +555,9 @@ public class GridUnsafeMemory {
                 for (int i = 0; i < words; i++) {
                     int step = i * addrSize + align;
 
-                    int word = GridUnsafe.getInt(ptr);
+                    int word = GridUnsafe.getInstance().getInt(ptr);
 
-                    int comp = GridUnsafe.getInt(bytes, GridUnsafe.BYTE_ARR_OFF + step + bytesOff);
+                    int comp = GridUnsafe.getInstance().getInt(bytes, GridUnsafe.BYTE_ARR_OFF + step + bytesOff);
 
                     if (word != comp)
                         return false;
@@ -569,9 +571,9 @@ public class GridUnsafeMemory {
                 for (int i = 0; i < words; i++) {
                     int step = i * addrSize + align;
 
-                    long word = GridUnsafe.getLong(ptr);
+                    long word = GridUnsafe.getInstance().getLong(ptr);
 
-                    long comp = GridUnsafe.getLong(bytes, GridUnsafe.BYTE_ARR_OFF + step + bytesOff);
+                    long comp = GridUnsafe.getInstance().getLong(bytes, GridUnsafe.BYTE_ARR_OFF + step + bytesOff);
 
                     if (word != comp)
                         return false;
@@ -585,7 +587,7 @@ public class GridUnsafeMemory {
         if (left != 0) {
             // Compare left overs byte by byte.
             for (int i = 0; i < left; i++)
-                if (GridUnsafe.getByte(ptr + i) != bytes[bytesOff + i + align + words * GridUnsafe.ADDR_SIZE])
+                if (GridUnsafe.getInstance().getByte(ptr + i) != bytes[bytesOff + i + align + words * GridUnsafe.ADDR_SIZE])
                     return false;
         }
 
@@ -607,7 +609,7 @@ public class GridUnsafeMemory {
      * @return The same array as passed in one.
      */
     public byte[] readBytes(long ptr, byte[] arr) {
-        GridUnsafe.copyOffheapHeap(ptr, arr, GridUnsafe.BYTE_ARR_OFF, arr.length);
+        GridUnsafe.getInstance().copyOffheapHeap(ptr, arr, GridUnsafe.BYTE_ARR_OFF, arr.length);
 
         return arr;
     }
@@ -620,7 +622,7 @@ public class GridUnsafeMemory {
      * @return The same array as passed in one.
      */
     public byte[] readBytes(long ptr, byte[] arr, int off, int len) {
-        GridUnsafe.copyOffheapHeap(ptr, arr, GridUnsafe.BYTE_ARR_OFF + off, len);
+        GridUnsafe.getInstance().copyOffheapHeap(ptr, arr, GridUnsafe.BYTE_ARR_OFF + off, len);
 
         return arr;
     }
@@ -632,7 +634,7 @@ public class GridUnsafeMemory {
      * @param arr Array.
      */
     public void writeBytes(long ptr, byte[] arr) {
-        GridUnsafe.copyHeapOffheap(arr, GridUnsafe.BYTE_ARR_OFF, ptr, arr.length);
+        GridUnsafe.getInstance().copyHeapOffheap(arr, GridUnsafe.BYTE_ARR_OFF, ptr, arr.length);
     }
 
     /**
@@ -644,7 +646,7 @@ public class GridUnsafeMemory {
      * @param len Length.
      */
     public void writeBytes(long ptr, byte[] arr, int off, int len) {
-        GridUnsafe.copyHeapOffheap(arr, GridUnsafe.BYTE_ARR_OFF + off, ptr, len);
+        GridUnsafe.getInstance().copyHeapOffheap(arr, GridUnsafe.BYTE_ARR_OFF + off, ptr, len);
     }
 
     /**
@@ -655,7 +657,7 @@ public class GridUnsafeMemory {
      * @param len Length in bytes.
      */
     public void copyMemory(long srcPtr, long destPtr, long len) {
-        GridUnsafe.copyOffheapOffheap(srcPtr, destPtr, len);
+        GridUnsafe.getInstance().copyOffheapOffheap(srcPtr, destPtr, len);
     }
 
     /**

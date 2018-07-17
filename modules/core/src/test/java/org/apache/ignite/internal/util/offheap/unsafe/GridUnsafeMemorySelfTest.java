@@ -21,6 +21,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+
 import org.apache.ignite.internal.util.GridUnsafe;
 import org.apache.ignite.testframework.junits.common.GridCommonAbstractTest;
 
@@ -30,16 +31,16 @@ import org.apache.ignite.testframework.junits.common.GridCommonAbstractTest;
 public class GridUnsafeMemorySelfTest extends GridCommonAbstractTest {
     /** */
     public void testBuffers() {
-        ByteBuffer b1 = GridUnsafe.allocateBuffer(10);
-        ByteBuffer b2 = GridUnsafe.allocateBuffer(20);
+        ByteBuffer b1 = GridUnsafe.getInstance().allocateBuffer(10);
+        ByteBuffer b2 = GridUnsafe.getInstance().allocateBuffer(20);
 
-        assertEquals(GridUnsafe.NATIVE_BYTE_ORDER, b2.order());
+        assertEquals(GridUnsafe.getInstance().NATIVE_BYTE_ORDER, b2.order());
         assertTrue(b2.isDirect());
         assertEquals(20, b2.capacity());
         assertEquals(20, b2.limit());
         assertEquals(0, b2.position());
 
-        assertEquals(GridUnsafe.NATIVE_BYTE_ORDER, b1.order());
+        assertEquals(GridUnsafe.getInstance().NATIVE_BYTE_ORDER, b1.order());
         assertTrue(b1.isDirect());
         assertEquals(10, b1.capacity());
         assertEquals(10, b1.limit());
@@ -50,7 +51,7 @@ public class GridUnsafeMemorySelfTest extends GridCommonAbstractTest {
 
         b2.putLong(2L);
 
-        GridUnsafe.freeBuffer(b1);
+        GridUnsafe.getInstance().freeBuffer(b1);
 
         b2.putLong(3L);
         b2.putInt(9);
@@ -58,7 +59,7 @@ public class GridUnsafeMemorySelfTest extends GridCommonAbstractTest {
         for (int i = 0; i <= 16; i++)
             b2.putInt(i, 100500);
 
-        GridUnsafe.freeBuffer(b2);
+        GridUnsafe.getInstance().freeBuffer(b2);
     }
 
     /**

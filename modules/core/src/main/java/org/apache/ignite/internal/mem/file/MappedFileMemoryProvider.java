@@ -72,7 +72,7 @@ public class MappedFileMemoryProvider implements DirectMemoryProvider {
         if (!allocationPath.exists()) {
             if (!allocationPath.mkdirs())
                 throw new IgniteException("Failed to initialize allocation path (make sure directory is " +
-                    "writable for the current user): " + allocationPath);
+                        "writable for the current user): " + allocationPath);
         }
 
         if (!allocationPath.isDirectory())
@@ -87,7 +87,7 @@ public class MappedFileMemoryProvider implements DirectMemoryProvider {
             for (File file : files) {
                 if (!file.delete())
                     throw new IgniteException("Failed to delete allocated file on start (make sure file is not " +
-                        "opened by another process and current user has enough rights): " + file);
+                            "opened by another process and current user has enough rights): " + file);
             }
         }
     }
@@ -100,13 +100,17 @@ public class MappedFileMemoryProvider implements DirectMemoryProvider {
             }
             catch (IOException e) {
                 log.error("Failed to close memory-mapped file upon stop (will ignore) [file=" +
-                    file.file() + ", err=" + e.getMessage() + ']');
+                        file.file() + ", err=" + e.getMessage() + ']');
             }
         }
     }
 
-    /** {@inheritDoc} */
     @Override public DirectMemoryRegion nextRegion() {
+        return nextRegion("");
+    }
+
+    /** {@inheritDoc} */
+    @Override public DirectMemoryRegion nextRegion(String regionName) {
         try {
             if (mappedFiles.size() == sizes.length)
                 return null;

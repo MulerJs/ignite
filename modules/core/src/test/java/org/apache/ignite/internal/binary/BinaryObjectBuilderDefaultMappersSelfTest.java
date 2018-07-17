@@ -719,21 +719,21 @@ public class BinaryObjectBuilderDefaultMappersSelfTest extends GridCommonAbstrac
 
         byte[] arr = ((CacheObjectBinaryProcessorImpl)(grid(0)).context().cacheObjects()).marshal(po);
 
-        long ptr = GridUnsafe.allocateMemory(arr.length + 5);
+        long ptr = GridUnsafe.getInstance().allocateMemory(arr.length + 5);
 
         try {
             long ptr0 = ptr;
 
-            GridUnsafe.putBoolean(null, ptr0++, false);
+            GridUnsafe.getInstance().putBoolean(null, ptr0++, false);
 
             int len = arr.length;
 
             if (BIG_ENDIAN)
-                GridUnsafe.putIntLE(ptr0, len);
+                GridUnsafe.getInstance().putIntLE(ptr0, len);
             else
-                GridUnsafe.putInt(ptr0, len);
+                GridUnsafe.getInstance().putInt(ptr0, len);
 
-            GridUnsafe.copyHeapOffheap(arr, GridUnsafe.BYTE_ARR_OFF, ptr0 + 4, arr.length);
+            GridUnsafe.getInstance().copyHeapOffheap(arr, GridUnsafe.getInstance().BYTE_ARR_OFF, ptr0 + 4, arr.length);
 
             BinaryObject offheapObj = (BinaryObject)
                 ((CacheObjectBinaryProcessorImpl)(grid(0)).context().cacheObjects()).unmarshal(ptr, false);
@@ -759,7 +759,7 @@ public class BinaryObjectBuilderDefaultMappersSelfTest extends GridCommonAbstrac
             assertEquals(offheapObj, po);
         }
         finally {
-            GridUnsafe.freeMemory(ptr);
+            GridUnsafe.getInstance().freeMemory(ptr);
         }
     }
 

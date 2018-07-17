@@ -33,7 +33,7 @@ public class BinaryFieldsOffheapSelfTest extends BinaryFieldsAbstractSelfTest {
 
         // Cleanup allocated objects.
         for (Long ptr : ptrs)
-            GridUnsafe.freeMemory(ptr);
+            GridUnsafe.getInstance().freeMemory(ptr);
 
         ptrs.clear();
     }
@@ -42,11 +42,11 @@ public class BinaryFieldsOffheapSelfTest extends BinaryFieldsAbstractSelfTest {
     @Override protected BinaryObjectExImpl toBinary(BinaryMarshaller marsh, Object obj) throws Exception {
         byte[] arr = marsh.marshal(obj);
 
-        long ptr = GridUnsafe.allocateMemory(arr.length);
+        long ptr = GridUnsafe.getInstance().allocateMemory(arr.length);
 
         ptrs.add(ptr);
 
-        GridUnsafe.copyHeapOffheap(arr, GridUnsafe.BYTE_ARR_OFF, ptr, arr.length);
+        GridUnsafe.getInstance().copyHeapOffheap(arr, GridUnsafe.getInstance().BYTE_ARR_OFF, ptr, arr.length);
 
         return new BinaryObjectOffheapImpl(binaryContext(marsh), ptr, 0, arr.length);
     }

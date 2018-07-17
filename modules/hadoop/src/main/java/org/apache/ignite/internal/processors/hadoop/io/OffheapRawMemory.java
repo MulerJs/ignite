@@ -45,49 +45,49 @@ public class OffheapRawMemory implements RawMemory {
     @Override public byte get(int idx) {
         ensure(idx, 1);
 
-        return GridUnsafe.getByte(ptr + idx);
+        return GridUnsafe.getInstance().getByte(ptr + idx);
     }
 
     /** {@inheritDoc} */
     @Override public short getShort(int idx) {
         ensure(idx, 2);
 
-        return GridUnsafe.getShort(ptr + idx);
+        return GridUnsafe.getInstance().getShort(ptr + idx);
     }
 
     /** {@inheritDoc} */
     @Override public char getChar(int idx) {
         ensure(idx, 2);
 
-        return GridUnsafe.getChar(ptr + idx);
+        return GridUnsafe.getInstance().getChar(ptr + idx);
     }
 
     /** {@inheritDoc} */
     @Override public int getInt(int idx) {
         ensure(idx, 4);
 
-        return GridUnsafe.getInt(ptr + idx);
+        return GridUnsafe.getInstance().getInt(ptr + idx);
     }
 
     /** {@inheritDoc} */
     @Override public long getLong(int idx) {
         ensure(idx, 8);
 
-        return GridUnsafe.getLong(ptr + idx);
+        return GridUnsafe.getInstance().getLong(ptr + idx);
     }
 
     /** {@inheritDoc} */
     @Override public float getFloat(int idx) {
         ensure(idx, 4);
 
-        return GridUnsafe.getFloat(ptr + idx);
+        return GridUnsafe.getInstance().getFloat(ptr + idx);
     }
 
     /** {@inheritDoc} */
     @Override public double getDouble(int idx) {
         ensure(idx, 8);
 
-        return GridUnsafe.getDouble(ptr + idx);
+        return GridUnsafe.getInstance().getDouble(ptr + idx);
     }
 
     /** {@inheritDoc} */

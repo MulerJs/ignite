@@ -92,120 +92,120 @@ public final class BinaryHeapOutputStream extends BinaryAbstractOutputStream {
 
     /** {@inheritDoc} */
     @Override protected void copyAndShift(Object src, long off, int len) {
-        GridUnsafe.copyMemory(src, off, data, GridUnsafe.BYTE_ARR_OFF + pos, len);
+        GridUnsafe.getInstance().copyMemory(src, off, data, GridUnsafe.getInstance().BYTE_ARR_OFF + pos, len);
 
         shift(len);
     }
 
     /** {@inheritDoc} */
     @Override protected void writeShortFast(short val) {
-        long off = GridUnsafe.BYTE_ARR_OFF + pos;
+        long off = GridUnsafe.getInstance().BYTE_ARR_OFF + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putShortLE(data, off, val);
+            GridUnsafe.getInstance().putShortLE(data, off, val);
         else
-            GridUnsafe.putShort(data, off, val);
+            GridUnsafe.getInstance().putShort(data, off, val);
     }
 
     /** {@inheritDoc} */
     @Override protected void writeCharFast(char val) {
-        long off = GridUnsafe.BYTE_ARR_OFF + pos;
+        long off = GridUnsafe.getInstance().BYTE_ARR_OFF + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putCharLE(data, off, val);
+            GridUnsafe.getInstance().putCharLE(data, off, val);
         else
-            GridUnsafe.putChar(data, off, val);
+            GridUnsafe.getInstance().putChar(data, off, val);
     }
 
     /** {@inheritDoc} */
     @Override protected void writeIntFast(int val) {
-        long off = GridUnsafe.BYTE_ARR_OFF + pos;
+        long off = GridUnsafe.getInstance().BYTE_ARR_OFF + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putIntLE(data, off, val);
+            GridUnsafe.getInstance().putIntLE(data, off, val);
         else
-            GridUnsafe.putInt(data, off, val);
+            GridUnsafe.getInstance().putInt(data, off, val);
     }
 
     /** {@inheritDoc} */
     @Override protected void writeLongFast(long val) {
-        long off = GridUnsafe.BYTE_ARR_OFF + pos;
+        long off = GridUnsafe.getInstance().BYTE_ARR_OFF + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putLongLE(data, off, val);
+            GridUnsafe.getInstance().putLongLE(data, off, val);
         else
-            GridUnsafe.putLong(data, off, val);
+            GridUnsafe.getInstance().putLong(data, off, val);
     }
 
     /** {@inheritDoc} */
     @Override public void unsafeWriteByte(byte val) {
-        GridUnsafe.putByte(data, GridUnsafe.BYTE_ARR_OFF + pos++, val);
+        GridUnsafe.getInstance().putByte(data, GridUnsafe.getInstance().BYTE_ARR_OFF + pos++, val);
     }
 
     /** {@inheritDoc} */
     @Override public void unsafeWriteShort(short val) {
-        long off = GridUnsafe.BYTE_ARR_OFF + pos;
+        long off = GridUnsafe.getInstance().BYTE_ARR_OFF + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putShortLE(data, off, val);
+            GridUnsafe.getInstance().putShortLE(data, off, val);
         else
-            GridUnsafe.putShort(data, off, val);
+            GridUnsafe.getInstance().putShort(data, off, val);
 
         shift(2);
     }
 
     /** {@inheritDoc} */
     @Override public void unsafeWriteShort(int pos, short val) {
-        long off = GridUnsafe.BYTE_ARR_OFF + pos;
+        long off = GridUnsafe.getInstance().BYTE_ARR_OFF + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putShortLE(data, off, val);
+            GridUnsafe.getInstance().putShortLE(data, off, val);
         else
-            GridUnsafe.putShort(data, off, val);
+            GridUnsafe.getInstance().putShort(data, off, val);
     }
 
     /** {@inheritDoc} */
     @Override public void unsafeWriteChar(char val) {
-        long off = GridUnsafe.BYTE_ARR_OFF + pos;
+        long off = GridUnsafe.getInstance().BYTE_ARR_OFF + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putCharLE(data, off, val);
+            GridUnsafe.getInstance().putCharLE(data, off, val);
         else
-            GridUnsafe.putChar(data, off, val);
+            GridUnsafe.getInstance().putChar(data, off, val);
 
         shift(2);
     }
 
     /** {@inheritDoc} */
     @Override public void unsafeWriteInt(int val) {
-        long off = GridUnsafe.BYTE_ARR_OFF + pos;
+        long off = GridUnsafe.getInstance().BYTE_ARR_OFF + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putIntLE(data, off, val);
+            GridUnsafe.getInstance().putIntLE(data, off, val);
         else
-            GridUnsafe.putInt(data, off, val);
+            GridUnsafe.getInstance().putInt(data, off, val);
 
         shift(4);
     }
 
     /** {@inheritDoc} */
     @Override public void unsafeWriteInt(int pos, int val) {
-        long off = GridUnsafe.BYTE_ARR_OFF + pos;
+        long off = GridUnsafe.getInstance().BYTE_ARR_OFF + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putIntLE(data, off, val);
+            GridUnsafe.getInstance().putIntLE(data, off, val);
         else
-            GridUnsafe.putInt(data, off, val);
+            GridUnsafe.getInstance().putInt(data, off, val);
     }
 
     /** {@inheritDoc} */
     @Override public void unsafeWriteLong(long val) {
-        long off = GridUnsafe.BYTE_ARR_OFF + pos;
+        long off = GridUnsafe.getInstance().BYTE_ARR_OFF + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putLongLE(data, off, val);
+            GridUnsafe.getInstance().putLongLE(data, off, val);
         else
-            GridUnsafe.putLong(data, off, val);
+            GridUnsafe.getInstance().putLong(data, off, val);
 
         shift(8);
     }

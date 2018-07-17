@@ -99,42 +99,42 @@ public class HadoopDirectDataOutput extends OutputStream implements DataOutput {
     @Override public void writeShort(int val) throws IOException {
         int writePos = ensure(2);
 
-        GridUnsafe.putShort(buf, BYTE_ARR_OFF + writePos, (short)val);
+        GridUnsafe.getInstance().putShort(buf, BYTE_ARR_OFF + writePos, (short)val);
     }
 
     /** {@inheritDoc} */
     @Override public void writeChar(int val) throws IOException {
         int writePos = ensure(2);
 
-        GridUnsafe.putChar(buf, BYTE_ARR_OFF + writePos, (char)val);
+        GridUnsafe.getInstance().putChar(buf, BYTE_ARR_OFF + writePos, (char)val);
     }
 
     /** {@inheritDoc} */
     @Override public void writeInt(int val) throws IOException {
         int writePos = ensure(4);
 
-        GridUnsafe.putInt(buf, BYTE_ARR_OFF + writePos, val);
+        GridUnsafe.getInstance().putInt(buf, BYTE_ARR_OFF + writePos, val);
     }
 
     /** {@inheritDoc} */
     @Override public void writeLong(long val) throws IOException {
         int writePos = ensure(8);
 
-        GridUnsafe.putLong(buf, BYTE_ARR_OFF + writePos, val);
+        GridUnsafe.getInstance().putLong(buf, BYTE_ARR_OFF + writePos, val);
     }
 
     /** {@inheritDoc} */
     @Override public void writeFloat(float val) throws IOException {
         int writePos = ensure(4);
 
-        GridUnsafe.putFloat(buf, BYTE_ARR_OFF + writePos, val);
+        GridUnsafe.getInstance().putFloat(buf, BYTE_ARR_OFF + writePos, val);
     }
 
     /** {@inheritDoc} */
     @Override public void writeDouble(double val) throws IOException {
         int writePos = ensure(8);
 
-        GridUnsafe.putDouble(buf, BYTE_ARR_OFF + writePos, val);
+        GridUnsafe.getInstance().putDouble(buf, BYTE_ARR_OFF + writePos, val);
     }
 
     /** {@inheritDoc} */

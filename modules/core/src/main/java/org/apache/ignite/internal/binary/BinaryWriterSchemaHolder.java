@@ -19,6 +19,9 @@ package org.apache.ignite.internal.binary;
 
 import org.apache.ignite.internal.binary.streams.BinaryOutputStream;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 /**
  * Binary writer schema holder.
  */
@@ -65,9 +68,10 @@ public class BinaryWriterSchemaHolder {
      * @param builder Builder.
      * @param fieldCnt Fields count.
      */
-    public void build(BinarySchema.Builder builder, int fieldCnt) {
-        for (int curIdx = idx - fieldCnt * 2; curIdx < idx; curIdx += 2)
+    public void build(BinarySchema.Builder builder, int fieldCnt, LinkedList<Integer> fieldIds) {
+        for (int curIdx = idx - fieldCnt * 2; curIdx < idx; curIdx += 2) {
             builder.addField(data[curIdx]);
+        }
     }
 
     /**

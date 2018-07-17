@@ -119,10 +119,7 @@ import org.apache.ignite.internal.processors.cache.persistence.tree.io.PageParti
 import org.apache.ignite.internal.processors.cache.persistence.wal.FileWALPointer;
 import org.apache.ignite.internal.processors.cache.persistence.wal.crc.PureJavaCrc32;
 import org.apache.ignite.internal.processors.port.GridPortRecord;
-import org.apache.ignite.internal.util.GridConcurrentHashSet;
-import org.apache.ignite.internal.util.GridMultiCollectionWrapper;
-import org.apache.ignite.internal.util.GridUnsafe;
-import org.apache.ignite.internal.util.IgniteUtils;
+import org.apache.ignite.internal.util.*;
 import org.apache.ignite.internal.util.future.CountDownFuture;
 import org.apache.ignite.internal.util.future.GridFutureAdapter;
 import org.apache.ignite.internal.util.lang.GridInClosure3X;
@@ -2616,7 +2613,7 @@ public class GridCacheDatabaseSharedManager extends IgniteCacheDatabaseSharedMan
         @Override public void run() {
             ByteBuffer tmpWriteBuf = threadBuf.get();
 
-            long writeAddr = GridUnsafe.bufferAddress(tmpWriteBuf);
+            long writeAddr = GridUnsafe.getInstance().bufferAddress(tmpWriteBuf);
 
             snapshotMgr.beforeCheckpointPageWritten();
 

@@ -46,7 +46,7 @@ public class PlatformBigEndianOutputStreamImpl extends PlatformOutputStreamImpl 
         long startPos = data + pos;
 
         for (short item : val) {
-            GridUnsafe.putShort(startPos, Short.reverseBytes(item));
+            GridUnsafe.getInstance().putShort(startPos, Short.reverseBytes(item));
 
             startPos += 2;
         }
@@ -68,7 +68,7 @@ public class PlatformBigEndianOutputStreamImpl extends PlatformOutputStreamImpl 
         long startPos = data + pos;
 
         for (char item : val) {
-            GridUnsafe.putChar(startPos, Character.reverseBytes(item));
+            GridUnsafe.getInstance().putChar(startPos, Character.reverseBytes(item));
 
             startPos += 2;
         }
@@ -90,7 +90,7 @@ public class PlatformBigEndianOutputStreamImpl extends PlatformOutputStreamImpl 
         long startPos = data + pos;
 
         for (int item : val) {
-            GridUnsafe.putInt(startPos, Integer.reverseBytes(item));
+            GridUnsafe.getInstance().putInt(startPos, Integer.reverseBytes(item));
 
             startPos += 4;
         }
@@ -117,7 +117,7 @@ public class PlatformBigEndianOutputStreamImpl extends PlatformOutputStreamImpl 
         long startPos = data + pos;
 
         for (float item : val) {
-            GridUnsafe.putInt(startPos, Integer.reverseBytes(Float.floatToIntBits(item)));
+            GridUnsafe.getInstance().putInt(startPos, Integer.reverseBytes(Float.floatToIntBits(item)));
 
             startPos += 4;
         }
@@ -139,7 +139,7 @@ public class PlatformBigEndianOutputStreamImpl extends PlatformOutputStreamImpl 
         long startPos = data + pos;
 
         for (long item : val) {
-            GridUnsafe.putLong(startPos, Long.reverseBytes(item));
+            GridUnsafe.getInstance().putLong(startPos, Long.reverseBytes(item));
 
             startPos += 8;
         }
@@ -156,7 +156,7 @@ public class PlatformBigEndianOutputStreamImpl extends PlatformOutputStreamImpl 
         long startPos = data + pos;
 
         for (double item : val) {
-            GridUnsafe.putLong(startPos, Long.reverseBytes(Double.doubleToLongBits(item)));
+            GridUnsafe.getInstance().putLong(startPos, Long.reverseBytes(Double.doubleToLongBits(item)));
 
             startPos += 8;
         }

@@ -19,6 +19,7 @@ package org.apache.ignite.internal.processors.query.h2.database.io;
 
 import java.util.List;
 import org.apache.ignite.IgniteCheckedException;
+import org.apache.ignite.Ignition;
 import org.apache.ignite.internal.pagemem.PageUtils;
 import org.apache.ignite.internal.processors.cache.persistence.tree.BPlusTree;
 import org.apache.ignite.internal.processors.cache.persistence.tree.io.BPlusIO;
@@ -122,7 +123,6 @@ public class H2ExtrasLeafIO extends BPlusLeafIO<SearchRow> implements H2RowLinkI
     @Override public SearchRow getLookupRow(BPlusTree<SearchRow, ?> tree, long pageAddr, int idx)
         throws IgniteCheckedException {
         long link = getLink(pageAddr, idx);
-
         return ((H2Tree)tree).getRowFactory().getRow(link);
     }
 

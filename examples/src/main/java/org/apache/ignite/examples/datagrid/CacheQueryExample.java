@@ -34,6 +34,8 @@ import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.ignite.examples.ExampleNodeStartup;
 import org.apache.ignite.examples.model.Organization;
 import org.apache.ignite.examples.model.Person;
+import org.apache.ignite.internal.binary.BinaryContext;
+import org.apache.ignite.internal.processors.cache.binary.CacheObjectBinaryProcessorImpl;
 import org.apache.ignite.lang.IgniteBiPredicate;
 
 /**
@@ -81,6 +83,7 @@ public class CacheQueryExample {
      * @throws Exception If example execution failed.
      */
     public static void main(String[] args) throws Exception {
+
         try (Ignite ignite = Ignition.start("examples/config/example-ignite.xml")) {
             System.out.println();
             System.out.println(">>> Cache query example started.");

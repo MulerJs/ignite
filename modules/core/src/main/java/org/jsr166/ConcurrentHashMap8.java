@@ -15,6 +15,8 @@
 
 package org.jsr166;
 
+import org.apache.ignite.Ignition;
+
 import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.Arrays;

@@ -90,7 +90,7 @@ public class HadoopDirectDataInput extends InputStream implements DataInput {
     @Override public byte readByte() throws IOException {
         checkRange(1);
 
-        byte res = GridUnsafe.getByte(buf, BYTE_ARR_OFF + pos);
+        byte res = GridUnsafe.getInstance().getByte(buf, BYTE_ARR_OFF + pos);
 
         pos += 1;
 
@@ -106,7 +106,7 @@ public class HadoopDirectDataInput extends InputStream implements DataInput {
     @Override public short readShort() throws IOException {
         checkRange(2);
 
-        short res = GridUnsafe.getShort(buf, BYTE_ARR_OFF + pos);
+        short res = GridUnsafe.getInstance().getShort(buf, BYTE_ARR_OFF + pos);
 
         pos += 2;
 
@@ -122,7 +122,7 @@ public class HadoopDirectDataInput extends InputStream implements DataInput {
     @Override public char readChar() throws IOException {
         checkRange(2);
 
-        char res = GridUnsafe.getChar(buf, BYTE_ARR_OFF + pos);
+        char res = GridUnsafe.getInstance().getChar(buf, BYTE_ARR_OFF + pos);
 
         pos += 2;
 
@@ -133,7 +133,7 @@ public class HadoopDirectDataInput extends InputStream implements DataInput {
     @Override public int readInt() throws IOException {
         checkRange(4);
 
-        int res = GridUnsafe.getInt(buf, BYTE_ARR_OFF + pos);
+        int res = GridUnsafe.getInstance().getInt(buf, BYTE_ARR_OFF + pos);
 
         pos += 4;
 
@@ -144,7 +144,7 @@ public class HadoopDirectDataInput extends InputStream implements DataInput {
     @Override public long readLong() throws IOException {
         checkRange(8);
 
-        long res = GridUnsafe.getLong(buf, BYTE_ARR_OFF + pos);
+        long res = GridUnsafe.getInstance().getLong(buf, BYTE_ARR_OFF + pos);
 
         pos += 8;
 
@@ -155,7 +155,7 @@ public class HadoopDirectDataInput extends InputStream implements DataInput {
     @Override public float readFloat() throws IOException {
         checkRange(4);
 
-        float res = GridUnsafe.getFloat(buf, BYTE_ARR_OFF + pos);
+        float res = GridUnsafe.getInstance().getFloat(buf, BYTE_ARR_OFF + pos);
 
         pos += 4;
 
@@ -166,7 +166,7 @@ public class HadoopDirectDataInput extends InputStream implements DataInput {
     @Override public double readDouble() throws IOException {
         checkRange(8);
 
-        double res = GridUnsafe.getDouble(buf, BYTE_ARR_OFF + pos);
+        double res = GridUnsafe.getInstance().getDouble(buf, BYTE_ARR_OFF + pos);
 
         pos += 8;
 

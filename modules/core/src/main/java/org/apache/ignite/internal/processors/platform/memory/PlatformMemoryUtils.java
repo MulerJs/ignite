@@ -65,7 +65,7 @@ public class PlatformMemoryUtils {
      * @return Data pointer.
      */
     public static long data(long memPtr) {
-        return GridUnsafe.getLong(memPtr);
+        return GridUnsafe.getInstance().getLong(memPtr);
     }
 
     /**
@@ -75,7 +75,7 @@ public class PlatformMemoryUtils {
      * @return Capacity.
      */
     public static int capacity(long memPtr) {
-        return GridUnsafe.getInt(memPtr + MEM_HDR_OFF_CAP);
+        return GridUnsafe.getInstance().getInt(memPtr + MEM_HDR_OFF_CAP);
     }
 
     /**
@@ -87,7 +87,7 @@ public class PlatformMemoryUtils {
     public static void capacity(long memPtr, int cap) {
         assert !isExternal(memPtr) : "Attempt to update external memory chunk capacity: " + memPtr;
 
-        GridUnsafe.putInt(memPtr + MEM_HDR_OFF_CAP, cap);
+        GridUnsafe.getInstance().putInt(memPtr + MEM_HDR_OFF_CAP, cap);
     }
 
     /**
@@ -97,7 +97,7 @@ public class PlatformMemoryUtils {
      * @return Length.
      */
     public static int length(long memPtr) {
-        return GridUnsafe.getInt(memPtr + MEM_HDR_OFF_LEN);
+        return GridUnsafe.getInstance().getInt(memPtr + MEM_HDR_OFF_LEN);
     }
 
     /**
@@ -107,7 +107,7 @@ public class PlatformMemoryUtils {
      * @param len Length.
      */
     public static void length(long memPtr, int len) {
-        GridUnsafe.putInt(memPtr + MEM_HDR_OFF_LEN, len);
+        GridUnsafe.getInstance().putInt(memPtr + MEM_HDR_OFF_LEN, len);
     }
 
     /**
@@ -117,7 +117,7 @@ public class PlatformMemoryUtils {
      * @return Flags.
      */
     public static int flags(long memPtr) {
-        return GridUnsafe.getInt(memPtr + MEM_HDR_OFF_FLAGS);
+        return GridUnsafe.getInstance().getInt(memPtr + MEM_HDR_OFF_FLAGS);
     }
 
     /**
@@ -129,7 +129,7 @@ public class PlatformMemoryUtils {
     public static void flags(long memPtr, int flags) {
         assert !isExternal(memPtr) : "Attempt to update external memory chunk flags: " + memPtr;
 
-        GridUnsafe.putInt(memPtr + MEM_HDR_OFF_FLAGS, flags);
+        GridUnsafe.getInstance().putInt(memPtr + MEM_HDR_OFF_FLAGS, flags);
     }
 
     /**
@@ -205,13 +205,13 @@ public class PlatformMemoryUtils {
     public static long allocateUnpooled(int cap) {
         assert cap > 0;
 
-        long memPtr = GridUnsafe.allocateMemory(MEM_HDR_LEN);
-        long dataPtr = GridUnsafe.allocateMemory(cap);
+        long memPtr = GridUnsafe.getInstance().allocateMemory(MEM_HDR_LEN);
+        long dataPtr = GridUnsafe.getInstance().allocateMemory(cap);
 
-        GridUnsafe.putLong(memPtr, dataPtr);              // Write address.
-        GridUnsafe.putInt(memPtr + MEM_HDR_OFF_CAP, cap); // Write capacity.
-        GridUnsafe.putInt(memPtr + MEM_HDR_OFF_LEN, 0);   // Write length.
-        GridUnsafe.putInt(memPtr + MEM_HDR_OFF_FLAGS, 0); // Write flags.
+        GridUnsafe.getInstance().putLong(memPtr, dataPtr);              // Write address.
+        GridUnsafe.getInstance().putInt(memPtr + MEM_HDR_OFF_CAP, cap); // Write capacity.
+        GridUnsafe.getInstance().putInt(memPtr + MEM_HDR_OFF_LEN, 0);   // Write length.
+        GridUnsafe.getInstance().putInt(memPtr + MEM_HDR_OFF_FLAGS, 0); // Write flags.
 
         return memPtr;
     }
@@ -230,12 +230,12 @@ public class PlatformMemoryUtils {
 
         long dataPtr = data(memPtr);
 
-        long newDataPtr = GridUnsafe.reallocateMemory(dataPtr, cap);
+        long newDataPtr = GridUnsafe.getInstance().reallocateMemory(dataPtr, cap);
 
         if (dataPtr != newDataPtr)
-            GridUnsafe.putLong(memPtr, newDataPtr); // Write new data address if needed.
+            GridUnsafe.getInstance().putLong(memPtr, newDataPtr); // Write new data address if needed.
 
-        GridUnsafe.putInt(memPtr + MEM_HDR_OFF_CAP, cap); // Write new capacity.
+        GridUnsafe.getInstance().putInt(memPtr + MEM_HDR_OFF_CAP, cap); // Write new capacity.
     }
 
     /**
@@ -247,8 +247,8 @@ public class PlatformMemoryUtils {
         assert !isExternal(memPtr) : "Attempt to release external memory chunk directly: " + memPtr;
         assert !isPooled(memPtr) : "Attempt to release pooled memory chunk directly: " + memPtr;
 
-        GridUnsafe.freeMemory(data(memPtr));
-        GridUnsafe.freeMemory(memPtr);
+        GridUnsafe.getInstance().freeMemory(data(memPtr));
+        GridUnsafe.getInstance().freeMemory(memPtr);
     }
 
     /** --- POOLED MEMORY MANAGEMENT. --- */
@@ -259,9 +259,9 @@ public class PlatformMemoryUtils {
      * @return Pool pointer.
      */
     public static long allocatePool() {
-        long poolPtr = GridUnsafe.allocateMemory(POOL_HDR_LEN);
+        long poolPtr = GridUnsafe.getInstance().allocateMemory(POOL_HDR_LEN);
 
-        GridUnsafe.setMemory(poolPtr, POOL_HDR_LEN, (byte)0);
+        GridUnsafe.getInstance().setMemory(poolPtr, POOL_HDR_LEN, (byte)0);
 
         flags(poolPtr + POOL_HDR_OFF_MEM_1, FLAG_POOLED);
         flags(poolPtr + POOL_HDR_OFF_MEM_2, FLAG_POOLED);
@@ -277,23 +277,23 @@ public class PlatformMemoryUtils {
      */
     public static void releasePool(long poolPtr) {
         // Clean predefined memory chunks.
-        long mem = GridUnsafe.getLong(poolPtr + POOL_HDR_OFF_MEM_1);
+        long mem = GridUnsafe.getInstance().getLong(poolPtr + POOL_HDR_OFF_MEM_1);
 
         if (mem != 0)
-            GridUnsafe.freeMemory(mem);
+            GridUnsafe.getInstance().freeMemory(mem);
 
-        mem = GridUnsafe.getLong(poolPtr + POOL_HDR_OFF_MEM_2);
-
-        if (mem != 0)
-            GridUnsafe.freeMemory(mem);
-
-        mem = GridUnsafe.getLong(poolPtr + POOL_HDR_OFF_MEM_3);
+        mem = GridUnsafe.getInstance().getLong(poolPtr + POOL_HDR_OFF_MEM_2);
 
         if (mem != 0)
-            GridUnsafe.freeMemory(mem);
+            GridUnsafe.getInstance().freeMemory(mem);
+
+        mem = GridUnsafe.getInstance().getLong(poolPtr + POOL_HDR_OFF_MEM_3);
+
+        if (mem != 0)
+            GridUnsafe.getInstance().freeMemory(mem);
 
         // Clean pool chunk.
-        GridUnsafe.freeMemory(poolPtr);
+        GridUnsafe.getInstance().freeMemory(poolPtr);
     }
 
     /**
@@ -344,24 +344,24 @@ public class PlatformMemoryUtils {
         assert isPooled(memPtr);
         assert !isAcquired(memPtr);
 
-        long data = GridUnsafe.getLong(memPtr);
+        long data = GridUnsafe.getInstance().getLong(memPtr);
 
         if (data == 0) {
             // First allocation of the chunk.
-            data = GridUnsafe.allocateMemory(cap);
+            data = GridUnsafe.getInstance().allocateMemory(cap);
 
-            GridUnsafe.putLong(memPtr, data);
-            GridUnsafe.putInt(memPtr + MEM_HDR_OFF_CAP, cap);
+            GridUnsafe.getInstance().putLong(memPtr, data);
+            GridUnsafe.getInstance().putInt(memPtr + MEM_HDR_OFF_CAP, cap);
         }
         else {
             // Ensure that we have enough capacity.
             int curCap = capacity(memPtr);
 
             if (cap > curCap) {
-                data = GridUnsafe.reallocateMemory(data, cap);
+                data = GridUnsafe.getInstance().reallocateMemory(data, cap);
 
-                GridUnsafe.putLong(memPtr, data);
-                GridUnsafe.putInt(memPtr + MEM_HDR_OFF_CAP, cap);
+                GridUnsafe.getInstance().putLong(memPtr, data);
+                GridUnsafe.getInstance().putInt(memPtr + MEM_HDR_OFF_CAP, cap);
             }
         }
 
@@ -379,17 +379,17 @@ public class PlatformMemoryUtils {
         assert isPooled(memPtr);
         assert isAcquired(memPtr);
 
-        long data = GridUnsafe.getLong(memPtr);
+        long data = GridUnsafe.getInstance().getLong(memPtr);
 
         assert data != 0;
 
         int curCap = capacity(memPtr);
 
         if (cap > curCap) {
-            data = GridUnsafe.reallocateMemory(data, cap);
+            data = GridUnsafe.getInstance().reallocateMemory(data, cap);
 
-            GridUnsafe.putLong(memPtr, data);
-            GridUnsafe.putInt(memPtr + MEM_HDR_OFF_CAP, cap);
+            GridUnsafe.getInstance().putLong(memPtr, data);
+            GridUnsafe.getInstance().putInt(memPtr + MEM_HDR_OFF_CAP, cap);
         }
     }
 

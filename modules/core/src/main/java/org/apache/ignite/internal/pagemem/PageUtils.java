@@ -24,6 +24,7 @@ import org.apache.ignite.internal.util.GridUnsafe;
  */
 @SuppressWarnings("deprecation")
 public class PageUtils {
+
     /**
      * @param addr Start address. 
      * @param off Offset.
@@ -33,7 +34,7 @@ public class PageUtils {
         assert addr > 0 : addr;
         assert off >= 0;
 
-        return GridUnsafe.getByte(addr + off);
+        return GridUnsafe.getInstance().getByte(addr + off);
     }
 
     /**
@@ -46,7 +47,7 @@ public class PageUtils {
         assert addr > 0 : addr;
         assert off >= 0;
 
-        return GridUnsafe.getByte(addr + off) & 0xFF;
+        return GridUnsafe.getInstance().getByte(addr + off) & 0xFF;
     }
 
     /**
@@ -62,7 +63,7 @@ public class PageUtils {
 
         byte[] bytes = new byte[len];
 
-        GridUnsafe.copyMemory(null, addr + off, bytes, GridUnsafe.BYTE_ARR_OFF, len);
+        GridUnsafe.getInstance().copyMemory(null, addr + off, bytes, GridUnsafe.BYTE_ARR_OFF, len);
 
         return bytes;
     }
@@ -81,7 +82,7 @@ public class PageUtils {
         assert dstOff >= 0;
         assert len >= 0;
 
-        GridUnsafe.copyMemory(null, srcAddr + srcOff, dst, GridUnsafe.BYTE_ARR_OFF + dstOff, len);
+        GridUnsafe.getInstance().copyMemory(null, srcAddr + srcOff, dst, GridUnsafe.BYTE_ARR_OFF + dstOff, len);
     }
 
     /**
@@ -93,7 +94,7 @@ public class PageUtils {
         assert addr > 0 : addr;
         assert off >= 0;
 
-        return GridUnsafe.getShort(addr + off);
+        return GridUnsafe.getInstance().getShort(addr + off);
     }
 
     /**
@@ -105,7 +106,7 @@ public class PageUtils {
         assert addr > 0 : addr;
         assert off >= 0;
 
-        return GridUnsafe.getInt(addr + off);
+        return GridUnsafe.getInstance().getInt(addr + off);
     }
 
     /**
@@ -117,7 +118,7 @@ public class PageUtils {
         assert addr > 0 : addr;
         assert off >= 0;
 
-        return GridUnsafe.getLong(addr + off);
+        return GridUnsafe.getInstance().getLong(addr + off);
     }
 
     /**
@@ -130,7 +131,7 @@ public class PageUtils {
         assert off >= 0;
         assert bytes != null;
 
-        GridUnsafe.copyMemory(bytes, GridUnsafe.BYTE_ARR_OFF, null, addr + off, bytes.length);
+        GridUnsafe.getInstance().copyMemory(bytes, GridUnsafe.BYTE_ARR_OFF, null, addr + off, bytes.length);
     }
 
     /**
@@ -145,7 +146,7 @@ public class PageUtils {
         assert bytes != null;
         assert bytesOff >= 0 && (bytesOff < bytes.length || bytes.length == 0) : bytesOff;
 
-        GridUnsafe.copyMemory(bytes, GridUnsafe.BYTE_ARR_OFF + bytesOff, null, addr + off, bytes.length - bytesOff);
+        GridUnsafe.getInstance().copyMemory(bytes, GridUnsafe.BYTE_ARR_OFF + bytesOff, null, addr + off, bytes.length - bytesOff);
     }
 
     /**
@@ -161,7 +162,7 @@ public class PageUtils {
         assert bytes != null;
         assert bytesOff >= 0 && (bytesOff < bytes.length || bytes.length == 0) : bytesOff;
 
-        GridUnsafe.copyMemory(bytes, GridUnsafe.BYTE_ARR_OFF + bytesOff, null, addr + off, len);
+        GridUnsafe.getInstance().copyMemory(bytes, GridUnsafe.BYTE_ARR_OFF + bytesOff, null, addr + off, len);
     }
 
     /**
@@ -173,7 +174,8 @@ public class PageUtils {
         assert addr > 0 : addr;
         assert off >= 0;
 
-        GridUnsafe.putByte(addr + off, v);
+
+        GridUnsafe.getInstance().putByte(addr + off, v);
     }
 
     /**
@@ -186,7 +188,7 @@ public class PageUtils {
         assert off >= 0;
         assert v >= 0 && v <= 255;
 
-        GridUnsafe.putByte(addr + off, (byte) v);
+        GridUnsafe.getInstance().putByte(addr + off, (byte) v);
     }
 
     /**
@@ -198,7 +200,7 @@ public class PageUtils {
         assert addr > 0 : addr;
         assert off >= 0;
 
-        GridUnsafe.putShort(addr + off, v);
+        GridUnsafe.getInstance().putShort(addr + off, v);
     }
 
     /**
@@ -210,7 +212,7 @@ public class PageUtils {
         assert addr > 0 : addr;
         assert off >= 0;
 
-        GridUnsafe.putInt(addr + off, v);
+        GridUnsafe.getInstance().putInt(addr + off, v);
     }
 
     /**
@@ -222,6 +224,6 @@ public class PageUtils {
         assert addr > 0 : addr;
         assert off >= 0;
 
-        GridUnsafe.putLong(addr + off, v);
+        GridUnsafe.getInstance().putLong(addr + off, v);
     }
 }

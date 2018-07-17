@@ -77,7 +77,7 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
     @Override public byte[] arrayCopy() {
         byte[] res = new byte[pos];
 
-        GridUnsafe.copyOffheapHeap(ptr, res, GridUnsafe.BYTE_ARR_OFF, pos);
+        GridUnsafe.getInstance().copyOffheapHeap(ptr, res, GridUnsafe.getInstance().BYTE_ARR_OFF, pos);
 
         return res;
     }
@@ -96,12 +96,12 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
 
     /** {@inheritDoc} */
     @Override protected void writeByteAndShift(byte val) {
-        GridUnsafe.putByte(ptr + pos++, val);
+        GridUnsafe.getInstance().putByte(ptr + pos++, val);
     }
 
     /** {@inheritDoc} */
     @Override protected void copyAndShift(Object src, long offset, int len) {
-        GridUnsafe.copyHeapOffheap(src, offset, ptr + pos, len);
+        GridUnsafe.getInstance().copyHeapOffheap(src, offset, ptr + pos, len);
 
         shift(len);
     }
@@ -111,9 +111,9 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
         long addr = ptr + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putShortLE(addr, val);
+            GridUnsafe.getInstance().putShortLE(addr, val);
         else
-            GridUnsafe.putShort(addr, val);
+            GridUnsafe.getInstance().putShort(addr, val);
     }
 
     /** {@inheritDoc} */
@@ -121,9 +121,9 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
         long addr = ptr + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putCharLE(addr, val);
+            GridUnsafe.getInstance().putCharLE(addr, val);
         else
-            GridUnsafe.putChar(addr, val);
+            GridUnsafe.getInstance().putChar(addr, val);
     }
 
     /** {@inheritDoc} */
@@ -131,9 +131,9 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
         long addr = ptr + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putIntLE(addr, val);
+            GridUnsafe.getInstance().putIntLE(addr, val);
         else
-            GridUnsafe.putInt(addr, val);
+            GridUnsafe.getInstance().putInt(addr, val);
     }
 
     /** {@inheritDoc} */
@@ -141,9 +141,9 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
         long addr = ptr + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putLongLE(addr, val);
+            GridUnsafe.getInstance().putLongLE(addr, val);
         else
-            GridUnsafe.putLong(addr, val);
+            GridUnsafe.getInstance().putLong(addr, val);
     }
 
     /** {@inheritDoc} */
@@ -153,7 +153,7 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
 
     /** {@inheritDoc} */
     @Override public void unsafeWriteByte(byte val) {
-        GridUnsafe.putByte(ptr + pos++, val);
+        GridUnsafe.getInstance().putByte(ptr + pos++, val);
     }
 
     /** {@inheritDoc} */
@@ -161,9 +161,9 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
         long addr = ptr + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putShortLE(addr, val);
+            GridUnsafe.getInstance().putShortLE(addr, val);
         else
-            GridUnsafe.putShort(addr, val);
+            GridUnsafe.getInstance().putShort(addr, val);
 
         shift(2);
     }
@@ -173,9 +173,9 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
         long addr = ptr + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putShortLE(addr, val);
+            GridUnsafe.getInstance().putShortLE(addr, val);
         else
-            GridUnsafe.putShort(addr, val);
+            GridUnsafe.getInstance().putShort(addr, val);
     }
 
     /** {@inheritDoc} */
@@ -183,9 +183,9 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
         long addr = ptr + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putCharLE(addr, val);
+            GridUnsafe.getInstance().putCharLE(addr, val);
         else
-            GridUnsafe.putChar(addr, val);
+            GridUnsafe.getInstance().putChar(addr, val);
 
         shift(2);
     }
@@ -195,9 +195,9 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
         long addr = ptr + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putIntLE(addr, val);
+            GridUnsafe.getInstance().putIntLE(addr, val);
         else
-            GridUnsafe.putInt(addr, val);
+            GridUnsafe.getInstance().putInt(addr, val);
 
         shift(4);
     }
@@ -207,9 +207,9 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
         long addr = ptr + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putIntLE(addr, val);
+            GridUnsafe.getInstance().putIntLE(addr, val);
         else
-            GridUnsafe.putInt(addr, val);
+            GridUnsafe.getInstance().putInt(addr, val);
     }
 
     /** {@inheritDoc} */
@@ -217,9 +217,9 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
         long addr = ptr + pos;
 
         if (BIG_ENDIAN)
-            GridUnsafe.putLongLE(addr, val);
+            GridUnsafe.getInstance().putLongLE(addr, val);
         else
-            GridUnsafe.putLong(addr, val);
+            GridUnsafe.getInstance().putLong(addr, val);
 
         shift(8);
     }
@@ -231,7 +231,7 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
      * @return Pointer.
      */
     protected long allocate(int cap) {
-        return GridUnsafe.allocateMemory(cap);
+        return GridUnsafe.getInstance().allocateMemory(cap);
     }
 
     /**
@@ -242,7 +242,7 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
      * @return New pointer.
      */
     protected long reallocate(long ptr, int cap) {
-        return GridUnsafe.reallocateMemory(ptr, cap);
+        return GridUnsafe.getInstance().reallocateMemory(ptr, cap);
     }
 
     /**
@@ -251,6 +251,6 @@ public class BinaryOffheapOutputStream extends BinaryAbstractOutputStream {
      * @param ptr Pointer.
      */
     protected void release(long ptr) {
-        GridUnsafe.freeMemory(ptr);
+        GridUnsafe.getInstance().freeMemory(ptr);
     }
 }

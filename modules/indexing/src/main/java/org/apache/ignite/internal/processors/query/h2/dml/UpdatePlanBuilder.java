@@ -531,7 +531,7 @@ public final class UpdatePlanBuilder {
                     /** {@inheritDoc} */
                     @Override public Object apply(List<?> arg) throws IgniteCheckedException {
                         try {
-                            return GridUnsafe.allocateInstance(cls);
+                            return GridUnsafe.getInstance().allocateInstance(cls);
                         }
                         catch (InstantiationException e) {
                             if (S.INCLUDE_SENSITIVE)

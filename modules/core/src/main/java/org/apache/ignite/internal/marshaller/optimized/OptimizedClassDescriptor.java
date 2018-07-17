@@ -46,8 +46,8 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentMap;
 
-import org.apache.ignite.internal.util.GridUnsafe;
 import org.apache.ignite.internal.util.SerializableTransient;
+import org.apache.ignite.internal.util.GridUnsafe;
 import org.apache.ignite.internal.util.typedef.internal.U;
 import org.apache.ignite.lang.IgniteProductVersion;
 import org.apache.ignite.marshaller.MarshallerContext;
@@ -281,7 +281,7 @@ class OptimizedClassDescriptor {
                 type = PROPS;
 
                 try {
-                    dfltsFieldOff = GridUnsafe.objectFieldOffset(Properties.class.getDeclaredField("defaults"));
+                    dfltsFieldOff = GridUnsafe.getInstance().objectFieldOffset(Properties.class.getDeclaredField("defaults"));
                 }
                 catch (NoSuchFieldException e) {
                     throw new IOException(e);
@@ -293,7 +293,7 @@ class OptimizedClassDescriptor {
                 type = HASH_MAP;
 
                 try {
-                    loadFactorFieldOff = GridUnsafe.objectFieldOffset(HashMap.class.getDeclaredField("loadFactor"));
+                    loadFactorFieldOff = GridUnsafe.getInstance().objectFieldOffset(HashMap.class.getDeclaredField("loadFactor"));
                 }
                 catch (NoSuchFieldException e) {
                     throw new IOException(e);
@@ -303,7 +303,7 @@ class OptimizedClassDescriptor {
                 type = HASH_SET;
 
                 try {
-                    loadFactorFieldOff = GridUnsafe.objectFieldOffset(HashMap.class.getDeclaredField("loadFactor"));
+                    loadFactorFieldOff = GridUnsafe.getInstance().objectFieldOffset(HashMap.class.getDeclaredField("loadFactor"));
                 }
                 catch (NoSuchFieldException e) {
                     throw new IOException(e);
@@ -316,9 +316,9 @@ class OptimizedClassDescriptor {
 
                 try {
                     loadFactorFieldOff =
-                        GridUnsafe.objectFieldOffset(HashMap.class.getDeclaredField("loadFactor"));
+                        GridUnsafe.getInstance().objectFieldOffset(HashMap.class.getDeclaredField("loadFactor"));
                     accessOrderFieldOff =
-                        GridUnsafe.objectFieldOffset(LinkedHashMap.class.getDeclaredField("accessOrder"));
+                        GridUnsafe.getInstance().objectFieldOffset(LinkedHashMap.class.getDeclaredField("accessOrder"));
                 }
                 catch (NoSuchFieldException e) {
                     throw new IOException(e);
@@ -328,7 +328,7 @@ class OptimizedClassDescriptor {
                 type = LINKED_HASH_SET;
 
                 try {
-                    loadFactorFieldOff = GridUnsafe.objectFieldOffset(HashMap.class.getDeclaredField("loadFactor"));
+                    loadFactorFieldOff = GridUnsafe.getInstance().objectFieldOffset(HashMap.class.getDeclaredField("loadFactor"));
                 }
                 catch (NoSuchFieldException e) {
                     throw new IOException(e);
@@ -508,7 +508,7 @@ class OptimizedClassDescriptor {
 
                                         fieldInfo = new FieldInfo(f,
                                             serField.getName(),
-                                            GridUnsafe.objectFieldOffset(f),
+                                            GridUnsafe.getInstance().objectFieldOffset(f),
                                             fieldType(serField.getType()));
                                     }
 
@@ -532,7 +532,7 @@ class OptimizedClassDescriptor {
 
                                 if (!isStatic(mod) && !isTransient(mod)) {
                                     FieldInfo fieldInfo = new FieldInfo(f, f.getName(),
-                                        GridUnsafe.objectFieldOffset(f), fieldType(f.getType()));
+                                        GridUnsafe.getInstance().objectFieldOffset(f), fieldType(f.getType()));
 
                                     clsFields.add(fieldInfo);
                                 }
@@ -865,7 +865,7 @@ class OptimizedClassDescriptor {
                 final Field f = cls.getDeclaredField(fieldName);
 
                 FieldInfo fieldInfo = new FieldInfo(f, f.getName(),
-                    GridUnsafe.objectFieldOffset(f), fieldType(f.getType()));
+                    GridUnsafe.getInstance().objectFieldOffset(f), fieldType(f.getType()));
 
                 clsFields.add(fieldInfo);
             }

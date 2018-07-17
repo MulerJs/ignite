@@ -353,6 +353,8 @@ public class BinaryUtils {
      * @return New schema ID.
      */
     public static int updateSchemaId(int schemaId, int fieldId) {
+        //schemaId += fieldId;
+
         schemaId = schemaId ^ (fieldId & 0xFF);
         schemaId = schemaId * FNV1_PRIME;
         schemaId = schemaId ^ ((fieldId >> 8) & 0xFF);

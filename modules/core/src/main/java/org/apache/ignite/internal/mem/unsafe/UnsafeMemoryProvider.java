@@ -60,15 +60,19 @@ public class UnsafeMemoryProvider implements DirectMemoryProvider {
         for (Iterator<DirectMemoryRegion> it = regions.iterator(); it.hasNext(); ) {
             DirectMemoryRegion chunk = it.next();
 
-            GridUnsafe.freeMemory(chunk.address());
+            GridUnsafe.getInstance().freeUnsafeMemory(chunk.address());
 
             // Safety.
             it.remove();
         }
     }
 
-    /** {@inheritDoc} */
     @Override public DirectMemoryRegion nextRegion() {
+        return nextRegion("");
+    }
+
+    /** {@inheritDoc} */
+    @Override public DirectMemoryRegion nextRegion(String regionName) {
         if (regions.size() == sizes.length)
             return null;
 
@@ -77,11 +81,11 @@ public class UnsafeMemoryProvider implements DirectMemoryProvider {
         long ptr;
 
         try {
-            ptr = GridUnsafe.allocateMemory(chunkSize);
+            ptr = GridUnsafe.getInstance().allocateUnsafeMemory(regionName, regions.size(), chunkSize);
         }
         catch (IllegalArgumentException e) {
             String msg = "Failed to allocate next memory chunk: " + U.readableSize(chunkSize, true) +
-                ". Check if chunkSize is too large and 32-bit JVM is used.";
+                    ". Check if chunkSize is too large and 32-bit JVM is used.";
 
             if (regions.size() == 0)
                 throw new IgniteException(msg, e);
@@ -97,7 +101,7 @@ public class UnsafeMemoryProvider implements DirectMemoryProvider {
             return null;
         }
 
-        DirectMemoryRegion region = new UnsafeChunk(ptr, chunkSize);
+        DirectMemoryRegion region = new UnsafeChunk(regionName, ptr, chunkSize);
 
         regions.add(region);
 

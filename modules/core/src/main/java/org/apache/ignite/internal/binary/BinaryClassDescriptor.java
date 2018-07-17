@@ -26,15 +26,8 @@ import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.UUID;
+import java.util.*;
+
 import org.apache.ignite.IgniteCheckedException;
 import org.apache.ignite.binary.BinaryObjectException;
 import org.apache.ignite.binary.BinaryReflectiveSerializer;
@@ -325,8 +318,9 @@ public class BinaryClassDescriptor {
 
                 BinarySchema.Builder schemaBuilder = BinarySchema.Builder.newBuilder();
 
-                for (BinaryFieldAccessor field : fields)
+                for (BinaryFieldAccessor field : fields) {
                     schemaBuilder.addField(field.id);
+                }
 
                 stableSchema = schemaBuilder.build();
 
@@ -389,7 +383,7 @@ public class BinaryClassDescriptor {
      * @param f Field.
      * @return {@code True} if must be serialized.
      */
-    private static boolean serializeField(Field f) {
+    public static boolean serializeField(Field f) {
         int mod = f.getModifiers();
 
         return !Modifier.isStatic(mod) && !Modifier.isTransient(mod);
@@ -921,7 +915,7 @@ public class BinaryClassDescriptor {
      */
     private Object newInstance() throws BinaryObjectException {
         try {
-            return ctor != null ? ctor.newInstance() : GridUnsafe.allocateInstance(cls);
+            return ctor != null ? ctor.newInstance() : GridUnsafe.getInstance().allocateInstance(cls);
         }
         catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
             throw new BinaryObjectException("Failed to instantiate instance: " + cls, e);

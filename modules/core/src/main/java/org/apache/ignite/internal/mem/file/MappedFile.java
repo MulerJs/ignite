@@ -104,7 +104,7 @@ public class MappedFile implements Closeable, DirectMemoryRegion {
     @Override public DirectMemoryRegion slice(long offset) {
         if (offset < 0 || offset >= size)
             throw new IllegalArgumentException("Failed to create a memory region slice [ptr=" + U.hexLong(addr) +
-                ", len=" + size + ", offset=" + offset + ']');
+                    ", len=" + size + ", offset=" + offset + ']');
 
         return new UnsafeChunk(addr + offset, size - offset);
     }
@@ -148,5 +148,15 @@ public class MappedFile implements Closeable, DirectMemoryRegion {
         catch (InvocationTargetException e) {
             throw new IllegalStateException(e.getTargetException());
         }
+    }
+
+    /**
+     * Added to support AEP.
+     * @return
+     */
+    @Override
+    public String getName() {
+        /* no-op */
+        return "";
     }
 }

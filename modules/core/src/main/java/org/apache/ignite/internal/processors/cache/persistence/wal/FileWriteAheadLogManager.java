@@ -230,7 +230,7 @@ public class FileWriteAheadLogManager extends GridCacheSharedManagerAdapter impl
         @Override protected ByteBuffer initialValue() {
             ByteBuffer buf = ByteBuffer.allocateDirect(tlbSize);
 
-            buf.order(GridUnsafe.NATIVE_BYTE_ORDER);
+            buf.order(GridUnsafe.getInstance().NATIVE_BYTE_ORDER);
 
             return buf;
         }
@@ -2429,7 +2429,7 @@ public class FileWriteAheadLogManager extends GridCacheSharedManagerAdapter impl
                 boolean tmpBuf = false;
 
                 if (expHead.chainSize() > tlbSize) {
-                    buf = GridUnsafe.allocateBuffer(expHead.chainSize());
+                    buf = GridUnsafe.getInstance().allocateBuffer(expHead.chainSize());
 
                     tmpBuf = true; // We need to manually release this temporary direct buffer.
                 }
@@ -2443,7 +2443,7 @@ public class FileWriteAheadLogManager extends GridCacheSharedManagerAdapter impl
                 }
                 finally {
                     if (tmpBuf)
-                        GridUnsafe.freeBuffer(buf);
+                        GridUnsafe.getInstance().freeBuffer(buf);
                 }
 
                 return true;

@@ -19,6 +19,7 @@ package org.apache.ignite.internal.processors.cache.persistence.tree.io;
 
 import java.nio.ByteBuffer;
 import org.apache.ignite.IgniteCheckedException;
+import org.apache.ignite.Ignition;
 import org.apache.ignite.internal.pagemem.PageUtils;
 import org.apache.ignite.internal.util.GridStringBuilder;
 import org.jetbrains.annotations.NotNull;

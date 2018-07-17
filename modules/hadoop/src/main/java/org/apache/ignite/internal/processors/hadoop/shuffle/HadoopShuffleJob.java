@@ -583,7 +583,7 @@ public class HadoopShuffleJob<T> implements AutoCloseable {
 
         /** */
         @Override public void copyTo(long ptr) {
-            GridUnsafe.copyHeapOffheap(buf, GridUnsafe.BYTE_ARR_OFF + off, ptr, size);
+            GridUnsafe.getInstance().copyHeapOffheap(buf, GridUnsafe.BYTE_ARR_OFF + off, ptr, size);
         }
     }
 
